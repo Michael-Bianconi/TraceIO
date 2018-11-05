@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 /**
  * TraceIO takes an image, traces it, and saves that into a new file.
  *
- * $ java TraceIO [input file] [output file]
+ * $ java Main [input file] [output file]
  *
  * @author Michael Bianconi
  * @author https://www.github.com/Michael-Bianconi
@@ -27,16 +27,16 @@ public class TraceIO {
         "Something went wrong with the output file!";
 
     // How many pixels to look at when determining if to trace
-    private static final int TRACE_READ_SIZE = 1;
+    private int TRACE_READ_SIZE = 6;
 
     // How different the pixel has to be when determining to trace
-    private static final int TRACE_THRESHOLD = 0xFFFF8888;
+    private double TRACE_THRESHOLD = 0xFFFF8888 * TRACE_READ_SIZE * 10;
 
     // Color to trace with
-    private static final int TRACE_COLOR = 0xFFFFFF00;
+    private int TRACE_COLOR = 0xFFFFFFFF;
 
     // Color when not tracing
-    private static final int TRACE_NO_COLOR = 0xFF000000;
+    private int TRACE_NO_COLOR = 0xFF000000;
 
 
     private File inFile;

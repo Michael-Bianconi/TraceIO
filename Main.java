@@ -1,4 +1,5 @@
 import src.test.CmdArgsTest;
+import src.traceio.TraceIO;
 
 public class Main {
     

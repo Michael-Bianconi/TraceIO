@@ -1,4 +1,5 @@
 package src.traceio;
+import src.traceio.Delta;
 
 import java.io.File;
 import java.io.IOException;
@@ -184,11 +185,28 @@ public class TraceIO {
     }
 
 
+    public void smooth() {
+
+        int numRows = this.inImage.getHeight() - TRACE_READ_SIZE;
+        int numCols = this.inImage.getWidth() - TRACE_READ_SIZE;
+
+        for (int row = TRACE_READ_SIZE; row < numRows; row++) {
+
+            for (int col = TRACE_READ_SIZE; col < numCols; col++) {
+
+                Delta delta = new Delta(TRACE_READ_SIZE, 0);
+                this.outImage.setRGB(col, row, delta.average(inRGB, row, col));
+            }
+        }
+    }
+
+
     public TraceIO(String[] args) {
 
         parseCommandLineArguments(args);
         readInputFile();
         createOutputImage();
+        smooth();
         trace();
         save();
 

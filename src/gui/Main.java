@@ -1,6 +1,7 @@
 package gui;
 
 import traceio.Trace;
+import traceio.Save;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -117,7 +118,7 @@ public class Main extends Application {
         Button saveBtn = new Button("Save");
         saveBtn.setOnAction(actionEvent -> {
             System.out.println("Saving it");
-            Trace.save(this.outImage, this.outFileName);
+            Save.save(this.outImage, this.outFileName);
         });
 
         Button resetBtn = new Button("Reset");

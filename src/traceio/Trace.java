@@ -148,20 +148,4 @@ public class Trace {
 
         return out;
     }
-
-
-    public static void save(Image in, String pathOut) {
-
-        File outputFile = new File(pathOut);
-        BufferedImage bImage = SwingFXUtils.fromFXImage(in, null);
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-
-
 }

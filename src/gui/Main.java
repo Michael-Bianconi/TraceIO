@@ -2,6 +2,7 @@ package gui;
 
 import traceio.Trace;
 import traceio.Save;
+import traceio.Blur;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -97,7 +98,7 @@ public class Main extends Application {
         Button smoothBtn = new Button("Smooth");
         smoothBtn.setOnAction(actionEvent ->  {
             System.out.println("Makin it smooth");
-            this.outImage = Trace.smooth(this.inImage, 6);
+            this.outImage = Blur.blur(this.inImage);
             this.outView.setImage(this.outImage);
         });
 

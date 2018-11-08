@@ -80,7 +80,7 @@ This fuckin worked amazingly. It provided reasonably similar images to the
 input (provided good thresholds were found), made trace() so much more
 effective. Look at 07Nov2018Me for an example.
 
-[Here's how the different filters complemented each other](docs/07Nov2018MeComparison.png)
+![Here's how the different filters complemented each other](demo/07Nov2018MeComparison.png)
 
 #### Next up
 

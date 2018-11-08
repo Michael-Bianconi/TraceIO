@@ -34,7 +34,11 @@ If the difference is small, it replaces the pixel with white.
 This single function was incredible and shitty. It was so simple,
 and created some really freaky looking images, but it was terrible at
 actually outlining things. It saw edges clear as day, but struggled
-when dealing with noise. After a few iterations, the entire image would
+when dealing with noise.
+
+![Here's an example](demo/08Nov2018CageTrace)
+
+After a few iterations, the entire image would
 be this eldritch abomination of tentacles. You could see the
 faintest semblance of the original image, but it was so slight
 that it felt out of place.

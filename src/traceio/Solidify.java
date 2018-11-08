@@ -6,8 +6,6 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
-import javax.xml.bind.annotation.XmlType;
-
 /**
  * Find the most prevalent color in a group of pixels and convert them all to
  * the extreme of that color. For example, 0xFFAA0843 (redish) becomes
@@ -138,6 +136,7 @@ public class Solidify {
         int totalPixels = size * size;
         int splotColor = 0;
 
+        // if the majority of the pixels have a color, add it to the splot
         if (red > totalPixels / 2) { splotColor |= RED; }
         if (blue > totalPixels / 2) { splotColor |= BLUE; }
         if (green > totalPixels / 2) { splotColor |= GREEN; }
@@ -146,10 +145,10 @@ public class Solidify {
     }
 
     /**
-     * Magnify the given color.
-     *
      * @param color to magnify.
-     * @param rThreshold Values greater are magnified, colors less are black
+     * @param rThreshold Red values greater are set to RED, otherwise BLACK
+     * @param gThreshold Green values greater are set to GREEN, otherwise BLACK
+     * @param bThreshold Blue values greater are set to BLUE, otherwise BLACK
      *
      * @return Magnified color.
      */

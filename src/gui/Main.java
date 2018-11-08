@@ -1,6 +1,5 @@
 package gui;
 
-import javafx.scene.control.Slider;
 import traceio.Solidify;
 import traceio.Trace;
 import traceio.Save;

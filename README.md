@@ -54,12 +54,15 @@ difficult and I decided to simply stick with my own blur until I got
 sick of it (it's been like 2 days and I'm sick of it).
 
 Unfortunately, just blurring the image and then tracing it wasn't enough.
-In fact, it made things worse. Take a look at 07Nov2018Elon in the demo
-folder to see why. After a couple iterations, the image becomes a nightmarish
+In fact, it made things worse. After a couple iterations, the image becomes a nightmarish
 shadow of the original.
+
+![Here's an example](demo/07Nov2018ElonBlurTrace)
 
 After about a dozen iterations, it becomes abstract art, looks cool,
 but loses any practicality.
+
+![Here's an example](demo/07Nov2018Shrek.png)
 
 I needed a different method of removing noise.
 

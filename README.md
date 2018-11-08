@@ -78,7 +78,9 @@ main colors (black, white, red, green, blue, yellow, purple, cyan).
 
 This fuckin worked amazingly. It provided reasonably similar images to the
 input (provided good thresholds were found), made trace() so much more
-effective. Look at 07Nov2018Me for an example.
+effective.
+
+![Here's an example](demo/07Nov2018Me.mp4)
 
 ![Here's how the different filters complemented each other](demo/07Nov2018MeComparison.png)
 

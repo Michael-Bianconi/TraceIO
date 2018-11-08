@@ -57,9 +57,9 @@ public class Trace {
 
         PixelWriter writer = out.getPixelWriter();
 
-        for (int row = scanRange; row < numRows; row++) {
+        for (int row = 0; row < in.getHeight(); row++) {
 
-            for (int col = scanRange; col < numCols; col++) {
+            for (int col = 0; col < in.getWidth(); col++) {
 
                 int delta = getDelta(in, col, row, scanRange);
 

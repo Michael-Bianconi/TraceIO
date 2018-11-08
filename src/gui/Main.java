@@ -1,5 +1,6 @@
 package gui;
 
+import traceio.Solidify;
 import traceio.Trace;
 import traceio.Save;
 import traceio.Blur;
@@ -109,6 +110,13 @@ public class Main extends Application {
             this.outView.setImage(this.outImage);
         });
 
+        Button solidifyBtn = new Button("Solidify");
+        solidifyBtn.setOnAction(actionEvent ->  {
+            System.out.println("Solidifying it");
+            this.outImage = Solidify.solidify(this.inImage);
+            this.outView.setImage(this.outImage);
+        });
+
         Button swapBtn = new Button("Swap");
         swapBtn.setOnAction(actionEvent -> {
             System.out.println("Swapping it");
@@ -129,7 +137,7 @@ public class Main extends Application {
             this.inView.setImage(this.inImage);
         });
 
-        pane.getChildren().addAll(smoothBtn, traceBtn, swapBtn, saveBtn, resetBtn);
+        pane.getChildren().addAll(smoothBtn, traceBtn, solidifyBtn, swapBtn, saveBtn, resetBtn);
 
         return pane;
     }

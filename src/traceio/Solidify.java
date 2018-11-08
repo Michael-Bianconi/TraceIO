@@ -6,6 +6,8 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Find the most prevalent color in a group of pixels and convert them all to
  * the extreme of that color. For example, 0xFFAA0843 (redish) becomes
@@ -22,16 +24,26 @@ public class Solidify {
     private static final int GREEN = 0x0000FF00;
     private static final int BLUE = 0x000000FF;
     private static final int BLACK = 0;
+    private static final int DEFAULT_KERNEL_SIZE = 4;
+    private static final int DEFAULT_THRESHOLD = 0xA0;
 
     private Solidify() {   }
 
     public static Image solidify(Image in) {
 
-        return solidify(in, 4);
+        return solidify(in,
+                        DEFAULT_KERNEL_SIZE,
+                        DEFAULT_THRESHOLD,
+                        DEFAULT_THRESHOLD,
+                        DEFAULT_THRESHOLD);
     }
 
 
-    public static Image solidify(Image in, int kernelSize) {
+    public static Image solidify(Image in,
+                                 int kernelSize,
+                                 int rThreshold,
+                                 int gThreshold,
+                                 int bThreshold) {
 
         WritableImage out = new WritableImage(
                 in.getPixelReader(), (int) in.getWidth(), (int) in.getHeight());
@@ -39,7 +51,16 @@ public class Solidify {
         for (int y = 0; y < in.getHeight(); y += kernelSize) {
             for (int x = 0; x < in.getWidth(); x += kernelSize) {
 
-                splot(out, x, y, kernelSize, getSplotColor(in,x,y,kernelSize));
+                int color = getSplotColor(in,
+                                          x,
+                                          y,
+                                          kernelSize,
+                                          rThreshold,
+                                          gThreshold,
+                                          bThreshold
+                );
+
+                splot(out, x, y, kernelSize, color);
             }
         }
 
@@ -81,9 +102,16 @@ public class Solidify {
      * @param x    Top left corner of the kernel.
      * @param y    Top left corner of the kernel.
      * @param size Size of the kernel.
+     * @param rThreshold Colors greater are magnified, otherwise set to black
      * @return The determined splot color.
      */
-    private static int getSplotColor(Image in, int x, int y, int size) {
+    private static int getSplotColor(Image in,
+                                     int x,
+                                     int y,
+                                     int size,
+                                     int rThreshold,
+                                     int gThreshold,
+                                     int bThreshold) {
 
         int red = 0;
         int blue = 0;
@@ -95,8 +123,10 @@ public class Solidify {
 
                 if (c + x < in.getWidth() && r + y < in.getHeight()) {
 
-                    int color = magnify(reader.getArgb(c + x, r + y));
-                    System.out.println(color);
+                    int color = magnify(reader.getArgb(c + x, r + y),
+                                        rThreshold,
+                                        gThreshold,
+                                        bThreshold);
 
                     if ((color & RED) > 0) { red++; }
                     if ((color & BLUE) > 0) { blue++; }
@@ -119,9 +149,14 @@ public class Solidify {
      * Magnify the given color.
      *
      * @param color to magnify.
+     * @param rThreshold Values greater are magnified, colors less are black
+     *
      * @return Magnified color.
      */
-    private static int magnify(int color){
+    private static int magnify(int color,
+                               int rThreshold,
+                               int gThreshold,
+                               int bThreshold){
 
         // break the color into ARGB
         int alpha = color & ALPHA;
@@ -129,14 +164,13 @@ public class Solidify {
         int green = color & GREEN;
         int blue =  color & BLUE;
 
-        // Set the colors to 256, 128, or 0
-        if      (red > 0x00A00000) { red = RED; }
+        if      (red > (rThreshold << 16)) { red = RED; }
         else {                      red = BLACK; }
 
-        if      (green > 0x0000A000) { green = GREEN; }
+        if      (green > (gThreshold << 8)) { green = GREEN; }
         else {                         green = BLACK; }
 
-        if      (blue > 0x000000A0) { blue = BLUE; }
+        if      (blue > bThreshold) { blue = BLUE; }
         else {                        blue = BLACK; }
 
         // combine them and return

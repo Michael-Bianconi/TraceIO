@@ -113,7 +113,11 @@ public class Main extends Application {
 
         SolidifyGUI solidifyGUI = new SolidifyGUI();
         solidifyGUI.setOnAction(actionEvent ->  {
-            this.outImage = Solidify.solidify(this.inImage);
+            this.outImage = Solidify.solidify(this.inImage,
+                                              solidifyGUI.getKernelSize(),
+                                              solidifyGUI.getRThreshold(),
+                                              solidifyGUI.getGThreshold(),
+                                              solidifyGUI.getBThreshold());
             this.outView.setImage(this.outImage);
         });
 

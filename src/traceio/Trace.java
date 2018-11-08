@@ -1,17 +1,13 @@
 package traceio;
 
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class Trace {
+
+    private static final int THRESHOLD = 0xFFFFAAAA * 60;
 
     /**
      * Get the difference of the given pixel from the surrounding pixels.
@@ -45,7 +41,7 @@ public class Trace {
     /**
      * Trace!!!
      */
-    public static Image trace(Image in, int scanRange, double threshold) {
+    public static Image trace(Image in, int scanRange) {
 
         int numRows = (int) in.getHeight() - scanRange;
         int numCols = (int) in.getWidth() - scanRange;
@@ -63,7 +59,7 @@ public class Trace {
 
                 int delta = getDelta(in, col, row, scanRange);
 
-                if (delta > threshold) {
+                if (delta > THRESHOLD) {
 
                     writer.setArgb(col, row, 0xFFFFFFFF);
 

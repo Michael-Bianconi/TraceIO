@@ -97,17 +97,17 @@ public class Main extends Application {
 
         VBox pane = new VBox();
 
-        Button smoothBtn = new Button("Smooth");
+        Button smoothBtn = new Button("Blur");
         smoothBtn.setOnAction(actionEvent ->  {
             System.out.println("Makin it smooth");
             this.outImage = Blur.blur(this.inImage);
             this.outView.setImage(this.outImage);
         });
 
-        Button traceBtn = new Button("Trace");
-        traceBtn.setOnAction(actionEvent -> {
-            System.out.println("Tracing the shit out of this");
-            this.outImage = Trace.trace(this.inImage, 6,0xFFFF8888 * 60);
+        TraceGUI traceGUI = new TraceGUI();
+        traceGUI.setOnAction(actionEvent -> {
+            this.outImage = Trace.trace(this.inImage,
+                                        traceGUI.getScanRange());
             this.outView.setImage(this.outImage);
         });
 
@@ -141,7 +141,7 @@ public class Main extends Application {
             this.inView.setImage(this.inImage);
         });
 
-        pane.getChildren().addAll(smoothBtn, traceBtn, solidifyGUI, swapBtn, saveBtn, resetBtn);
+        pane.getChildren().addAll(smoothBtn, traceGUI, solidifyGUI, swapBtn, saveBtn, resetBtn);
 
         return pane;
     }

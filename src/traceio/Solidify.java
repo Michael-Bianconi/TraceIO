@@ -27,7 +27,7 @@ public class Solidify {
 
     public static Image solidify(Image in) {
 
-        return solidify(in, 5);
+        return solidify(in, 4);
     }
 
 

@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.scene.control.Slider;
 import traceio.Solidify;
 import traceio.Trace;
 import traceio.Save;
@@ -110,9 +111,8 @@ public class Main extends Application {
             this.outView.setImage(this.outImage);
         });
 
-        Button solidifyBtn = new Button("Solidify");
-        solidifyBtn.setOnAction(actionEvent ->  {
-            System.out.println("Solidifying it");
+        SolidifyGUI solidifyGUI = new SolidifyGUI();
+        solidifyGUI.setOnAction(actionEvent ->  {
             this.outImage = Solidify.solidify(this.inImage);
             this.outView.setImage(this.outImage);
         });
@@ -137,7 +137,7 @@ public class Main extends Application {
             this.inView.setImage(this.inImage);
         });
 
-        pane.getChildren().addAll(smoothBtn, traceBtn, solidifyBtn, swapBtn, saveBtn, resetBtn);
+        pane.getChildren().addAll(smoothBtn, traceBtn, solidifyGUI, swapBtn, saveBtn, resetBtn);
 
         return pane;
     }

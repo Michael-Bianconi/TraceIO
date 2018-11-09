@@ -29,6 +29,7 @@ public class SolidifyGUI extends VBox {
         this.kernelSizeSlider.setShowTickLabels(true);
 
         this.button = new Button("Solidify");
+        this.button.prefWidthProperty().bind(super.widthProperty());
 
         this.rThresholdSlider = new Slider(0, 255, 128);
         this.rThresholdSlider.setShowTickMarks(true);
@@ -57,7 +58,7 @@ public class SolidifyGUI extends VBox {
         sliders.add(bThresholdLabel, 0, 3);
         sliders.add(bThresholdSlider, 1, 3);
 
-        super.getChildren().addAll(button,sliders);
+        super.getChildren().addAll(sliders, button);
     }
 
 

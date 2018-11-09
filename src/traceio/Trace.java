@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 public class Trace {
 
@@ -41,7 +42,7 @@ public class Trace {
     /**
      * Trace!!!
      */
-    public static Image trace(Image in, int scanRange) {
+    public static Image trace(Image in, int scanRange, Color fg, Color bg) {
 
         int numRows = (int) in.getHeight() - scanRange;
         int numCols = (int) in.getWidth() - scanRange;
@@ -61,11 +62,11 @@ public class Trace {
 
                 if (delta > THRESHOLD) {
 
-                    writer.setArgb(col, row, 0xFFFFFFFF);
+                    writer.setColor(col, row, bg);
 
                 } else {
 
-                    writer.setArgb(col, row, 0xFF000000);
+                    writer.setColor(col, row, fg);
                 }
             }
         }

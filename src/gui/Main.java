@@ -1,9 +1,11 @@
 package gui;
 
-import traceio.Solidify;
-import traceio.Trace;
-import traceio.Save;
-import traceio.Blur;
+import javafx.scene.Node;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import traceio.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,25 +94,46 @@ public class Main extends Application {
      *
      * @return VBox with the buttons.
      */
-    private VBox makeControlPanel() {
+    private Node makeControlPanel() {
 
-        VBox pane = new VBox();
+        TabPane tabPane = new TabPane();
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+        Tab blurTab = new Tab("Blur");
+        Tab traceTab = new Tab("Trace");
+        Tab solidifyTab = new Tab("Solidify");
+        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab);
 
-        Button smoothBtn = new Button("Blur");
-        smoothBtn.setOnAction(actionEvent ->  {
-            System.out.println("Makin it smooth");
+        VBox optionsPane = new VBox();
+        Button saveBtn = new Button("Save");
+        Button swapBtn = new Button("Swap");
+        Button resetBtn = new Button("Reset");
+        optionsPane.getChildren().addAll(saveBtn,swapBtn,resetBtn);
+
+        GridPane controlPanel = new GridPane();
+        controlPanel.setGridLinesVisible(true);
+        controlPanel.add(tabPane, 0, 0);
+        controlPanel.add(optionsPane, 0, 1);
+
+
+        Button blurBtn = new Button("Blur");
+        blurTab.setContent(blurBtn);
+        blurBtn.setOnAction(actionEvent ->  {
             this.outImage = Blur.blur(this.inImage);
             this.outView.setImage(this.outImage);
         });
 
         TraceGUI traceGUI = new TraceGUI();
+        traceTab.setContent(traceGUI);
         traceGUI.setOnAction(actionEvent -> {
             this.outImage = Trace.trace(this.inImage,
-                                        traceGUI.getScanRange());
+                                        traceGUI.getScanRange(),
+                                        traceGUI.getFGColor(),
+                                        traceGUI.getBGColor());
             this.outView.setImage(this.outImage);
         });
 
         SolidifyGUI solidifyGUI = new SolidifyGUI();
+        solidifyTab.setContent(solidifyGUI);
         solidifyGUI.setOnAction(actionEvent ->  {
             this.outImage = Solidify.solidify(this.inImage,
                                               solidifyGUI.getKernelSize(),
@@ -120,29 +143,27 @@ public class Main extends Application {
             this.outView.setImage(this.outImage);
         });
 
-        Button swapBtn = new Button("Swap");
+        swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
             System.out.println("Swapping it");
             this.inImage = this.outImage;
             this.inView.setImage(this.inImage);
         });
 
-        Button saveBtn = new Button("Save");
+        saveBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         saveBtn.setOnAction(actionEvent -> {
             System.out.println("Saving it");
             Save.save(this.outImage, this.outFileName);
         });
 
-        Button resetBtn = new Button("Reset");
+        resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         resetBtn.setOnAction(actionEvent -> {
             System.out.println("Reseti spaghetti");
             this.inImage = this.originalImage;
             this.inView.setImage(this.inImage);
         });
 
-        pane.getChildren().addAll(smoothBtn, traceGUI, solidifyGUI, swapBtn, saveBtn, resetBtn);
-
-        return pane;
+        return controlPanel;
     }
 
 

@@ -21,7 +21,7 @@ public class Solidify {
     private static final int RED = 0x00FF0000;
     private static final int GREEN = 0x0000FF00;
     private static final int BLUE = 0x000000FF;
-    private static final int BLACK = 0;
+    private static final int BLACK = 0x000000;
     private static final int DEFAULT_KERNEL_SIZE = 4;
     private static final int DEFAULT_THRESHOLD = 0xA0;
 

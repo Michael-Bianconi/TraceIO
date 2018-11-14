@@ -33,10 +33,9 @@ public class TraceGUI extends VBox {
 
         this.button = new Button("Trace");
         this.button.prefWidthProperty().bind(super.widthProperty());
-        super.setAlignment(Pos.BOTTOM_CENTER);
+        this.button.setAlignment(Pos.BOTTOM_CENTER);
 
         GridPane sliders = new GridPane();
-        sliders.setAlignment(Pos.TOP_CENTER);
         sliders.add(new Label("Scan Range"), 0, 0);
         sliders.add(scanRangeSlider, 1,0);
         sliders.add(new Label("Foreground"), 0, 1);

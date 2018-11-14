@@ -101,7 +101,8 @@ public class Main extends Application {
         Tab blurTab = new Tab("Blur");
         Tab traceTab = new Tab("Trace");
         Tab solidifyTab = new Tab("Solidify");
-        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab);
+        Tab overlayTab = new Tab("Overlay");
+        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
         Button saveBtn = new Button("Save");
@@ -144,6 +145,15 @@ public class Main extends Application {
             this.outView.setImage(this.outImage);
         });
 
+        OverlayGUI overlayGUI = new OverlayGUI();
+        overlayTab.setContent(overlayGUI);
+        overlayGUI.setOnAction(actionEvent -> {
+            this.inImage = Overlay.overlay(this.inImage,
+                                           this.outImage,
+                                           overlayGUI.getIgnoredColor());
+            this.inView.setImage(this.inImage);
+        });
+
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
             System.out.println("Swapping it");
@@ -164,11 +174,6 @@ public class Main extends Application {
             this.inView.setImage(this.inImage);
         });
 
-        overlayBtn.prefWidthProperty().bind(optionsPane.widthProperty());
-        overlayBtn.setOnAction(actionEvent -> {
-            this.inImage = Overlay.overlay(this.inImage, this.outImage, Color.WHITE);
-            this.inView.setImage(this.inImage);
-        });
 
         return controlPanel;
     }

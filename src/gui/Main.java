@@ -107,7 +107,8 @@ public class Main extends Application {
         Button saveBtn = new Button("Save");
         Button swapBtn = new Button("Swap");
         Button resetBtn = new Button("Reset");
-        optionsPane.getChildren().addAll(saveBtn,swapBtn,resetBtn);
+        Button overlayBtn = new Button("Overlay");
+        optionsPane.getChildren().addAll(overlayBtn,saveBtn,swapBtn,resetBtn);
 
         GridPane controlPanel = new GridPane();
         controlPanel.setGridLinesVisible(true);
@@ -160,6 +161,12 @@ public class Main extends Application {
         resetBtn.setOnAction(actionEvent -> {
             System.out.println("Reseti spaghetti");
             this.inImage = this.originalImage;
+            this.inView.setImage(this.inImage);
+        });
+
+        overlayBtn.prefWidthProperty().bind(optionsPane.widthProperty());
+        overlayBtn.setOnAction(actionEvent -> {
+            this.inImage = Overlay.overlay(this.inImage, this.outImage, Color.WHITE);
             this.inView.setImage(this.inImage);
         });
 

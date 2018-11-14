@@ -3,7 +3,7 @@ Analyze images and trace over them.
 
 # Developer Thoughts
 
-07 November 2018
+## 07 November 2018
 
 This project began as a barebones utility application that would trace outlines in images.
 
@@ -91,3 +91,12 @@ effective.
 #### Next up
 
 Gotta fix that blur function, man
+
+## 13 Nov 2018
+
+Alright, brief hiatus because of actual work but I'm back to working on TraceIO.
+I worked on an overlay() function that superimposes one image on top of the other.
+Originally it was done just so I could see how some images lined up after processing.
+However, it looks pretty neat. Below is the result of solidify() -> overlay() -> trace().
+
+![Here it is](demo/13Nov2018Overlay.png)

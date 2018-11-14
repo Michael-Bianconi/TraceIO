@@ -28,6 +28,7 @@ public class Main extends Application {
     private Image outImage;
     private ImageView inView;
     private ImageView outView;
+    private ThumbnailGUI thumbnailPane;
 
     @Override
     public void init() {
@@ -108,8 +109,7 @@ public class Main extends Application {
         Button saveBtn = new Button("Save");
         Button swapBtn = new Button("Swap");
         Button resetBtn = new Button("Reset");
-        Button overlayBtn = new Button("Overlay");
-        optionsPane.getChildren().addAll(overlayBtn,saveBtn,swapBtn,resetBtn);
+        optionsPane.getChildren().addAll(saveBtn,swapBtn,resetBtn);
 
         GridPane controlPanel = new GridPane();
         controlPanel.setGridLinesVisible(true);
@@ -131,6 +131,7 @@ public class Main extends Application {
                                         traceGUI.getScanRange(),
                                         traceGUI.getFGColor(),
                                         traceGUI.getBGColor());
+            this.addThumbnailFromOutImage();
             this.outView.setImage(this.outImage);
         });
 
@@ -142,16 +143,18 @@ public class Main extends Application {
                                               solidifyGUI.getRThreshold(),
                                               solidifyGUI.getGThreshold(),
                                               solidifyGUI.getBThreshold());
+            this.addThumbnailFromOutImage();
             this.outView.setImage(this.outImage);
         });
 
         OverlayGUI overlayGUI = new OverlayGUI();
         overlayTab.setContent(overlayGUI);
         overlayGUI.setOnAction(actionEvent -> {
-            this.inImage = Overlay.overlay(this.inImage,
-                                           this.outImage,
-                                           overlayGUI.getIgnoredColor());
-            this.inView.setImage(this.inImage);
+            this.outImage = Overlay.overlay(this.inImage,
+                                            this.outImage,
+                                            overlayGUI.getIgnoredColor());
+            this.addThumbnailFromOutImage();
+            this.outView.setImage(this.outImage);
         });
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
@@ -179,12 +182,33 @@ public class Main extends Application {
     }
 
 
+    private Node makeThumbnailPane() {
+        ThumbnailGUI gui = new ThumbnailGUI();
+        Thumbnail thumbnail = new Thumbnail(this.inImage);
+        thumbnail.imageSetOnAction(actionEvent -> {
+            this.inImage = thumbnail.getImage();
+            this.inView.setImage(this.inImage);
+        });
+        this.thumbnailPane = gui;
+        return gui;
+    }
+
+    private void addThumbnailFromOutImage() {
+        Thumbnail nail = new Thumbnail(this.outImage);
+        nail.imageSetOnAction(actionEvent -> {
+            this.inImage = nail.getImage();
+            this.inView.setImage(this.inImage);
+        });
+        this.thumbnailPane.addThumbnail(nail);
+    }
+
+
     private BorderPane makeMainPane() {
 
         BorderPane mainPane = new BorderPane();
-
         mainPane.setCenter(makeImageViews());
         mainPane.setRight(makeControlPanel());
+        mainPane.setBottom(makeThumbnailPane());
 
         return mainPane;
     }

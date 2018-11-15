@@ -5,10 +5,9 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import traceio.Solidify;
 
 
 public class SolidifyGUI extends VBox {
@@ -19,7 +18,11 @@ public class SolidifyGUI extends VBox {
     private Slider kernelSizeSlider;
     private Button button;
 
-    public SolidifyGUI() {
+    public SolidifyGUI(ViewGUI imageViews) {
+        this(imageViews, null);
+    }
+
+    public SolidifyGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
 
         super();
 
@@ -59,14 +62,26 @@ public class SolidifyGUI extends VBox {
         sliders.add(bThresholdSlider, 1, 3);
 
         super.getChildren().addAll(sliders, button);
+
+        button.setOnAction(buttonActionEvent -> {
+            imageViews.setRightImage(Solidify.solidify(
+                    imageViews.getLeftImage(),
+                    getKernelSize(),
+                    getRThreshold(),
+                    getGThreshold(),
+                    getBThreshold()));
+
+            // if applicable, create a thumbnail of the result as well
+            if (thumbnails != null) {
+                Thumbnail nail = new Thumbnail(imageViews.getRightImage());
+                nail.imageSetOnAction(thumbnailActionEvent -> {
+                    imageViews.setLeftImage(nail.getImage());
+                });
+
+                thumbnails.addThumbnail(nail);
+            }
+        });
     }
-
-
-    public void setOnAction(EventHandler<ActionEvent> e) {
-
-        this.button.setOnAction(e);
-    }
-
 
     public int getKernelSize() { return (int) this.kernelSizeSlider.getValue(); }
     public int getRThreshold() { return (int) rThresholdSlider.getValue(); }

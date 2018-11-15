@@ -56,10 +56,11 @@ public class Main extends Application {
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+
         Tab blurTab = new Tab("Blur");
-        Tab traceTab = new Tab("Trace");
-        traceTab.setContent(new TraceGUI(this.viewGUI, this.thumbnailPane));
-        Tab solidifyTab = new Tab("Solidify");
+        Tab traceTab = new Tab("Trace", new TraceGUI(this.viewGUI, this.thumbnailPane));
+        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(this.viewGUI, this.thumbnailPane));
+
         Tab overlayTab = new Tab("Overlay");
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
@@ -81,16 +82,6 @@ public class Main extends Application {
             this.viewGUI.setRightImage(Blur.blur(this.viewGUI.getLeftImage()));
         });
 
-        SolidifyGUI solidifyGUI = new SolidifyGUI();
-        solidifyTab.setContent(solidifyGUI);
-        solidifyGUI.setOnAction(actionEvent ->  {
-            this.viewGUI.setRightImage(Solidify.solidify(this.viewGUI.getLeftImage(),
-                                       solidifyGUI.getKernelSize(),
-                                       solidifyGUI.getRThreshold(),
-                                       solidifyGUI.getGThreshold(),
-                                       solidifyGUI.getBThreshold()));
-            this.addThumbnailFromOutImage();
-        });
 
         OverlayGUI overlayGUI = new OverlayGUI();
         overlayTab.setContent(overlayGUI);

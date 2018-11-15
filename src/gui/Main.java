@@ -4,18 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import traceio.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -64,6 +58,7 @@ public class Main extends Application {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         Tab blurTab = new Tab("Blur");
         Tab traceTab = new Tab("Trace");
+        traceTab.setContent(new TraceGUI(this.viewGUI, this.thumbnailPane));
         Tab solidifyTab = new Tab("Solidify");
         Tab overlayTab = new Tab("Overlay");
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
@@ -84,16 +79,6 @@ public class Main extends Application {
         blurTab.setContent(blurBtn);
         blurBtn.setOnAction(actionEvent ->  {
             this.viewGUI.setRightImage(Blur.blur(this.viewGUI.getLeftImage()));
-        });
-
-        TraceGUI traceGUI = new TraceGUI();
-        traceTab.setContent(traceGUI);
-        traceGUI.setOnAction(actionEvent -> {
-            this.viewGUI.setRightImage(Trace.trace(this.viewGUI.getRightImage(),
-                                      traceGUI.getScanRange(),
-                                      traceGUI.getFGColor(),
-                                      traceGUI.getBGColor()));
-            this.addThumbnailFromOutImage();
         });
 
         SolidifyGUI solidifyGUI = new SolidifyGUI();
@@ -157,12 +142,13 @@ public class Main extends Application {
 
     private BorderPane makeMainPane() {
 
+
         this.viewGUI = new ViewGUI(inFileName);
 
         BorderPane mainPane = new BorderPane();
+        mainPane.setBottom(makeThumbnailPane());
         mainPane.setCenter(this.viewGUI);
         mainPane.setRight(makeControlPanel());
-        mainPane.setBottom(makeThumbnailPane());
 
         return mainPane;
     }

@@ -1,7 +1,5 @@
 package gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
@@ -10,6 +8,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import traceio.Trace;
 
 
 public class TraceGUI extends VBox {
@@ -19,10 +18,21 @@ public class TraceGUI extends VBox {
     private Slider scanRangeSlider;
     private Button button;
 
-    public TraceGUI() {
+    public TraceGUI(ViewGUI imageViews) {
+        this(imageViews, null);
+    }
+
+    /**
+     * Create the GUI
+     * @param imageViews This GUI will change the images in this pane.
+     * @param thumbnails When used, this GUI will create a thumbnail
+     *                   here. Can be null.
+     */
+    public TraceGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
 
         super();
 
+        // foreground and background colors
         this.fgColorPicker = new ColorPicker(Color.BLACK);
         this.bgColorPicker = new ColorPicker(Color.WHITE);
 
@@ -44,13 +54,28 @@ public class TraceGUI extends VBox {
         sliders.add(bgColorPicker, 1, 2);
 
         super.getChildren().addAll(sliders,button);
+
+        // when the solidify button is pressed
+        this.button.setOnAction(buttonActionEvent -> {
+
+            // set the right image to the traced left image
+            imageViews.setRightImage(Trace.trace(imageViews.getLeftImage(),
+                                                 getScanRange(),
+                                                 getFGColor(),
+                                                 getBGColor()));
+
+            // if applicable, create a thumbnail of the result as well
+            if (thumbnails != null) {
+                System.out.println("TraceGUI is creating a thumbnail");
+                Thumbnail nail = new Thumbnail(imageViews.getRightImage());
+                nail.imageSetOnAction(thumbnailActionEvent -> {
+                    imageViews.setLeftImage(nail.getImage());
+                });
+
+                thumbnails.addThumbnail(nail);
+            }
+        });
     }
-
-
-    public void setOnAction(EventHandler<ActionEvent> e) {
-        this.button.setOnAction(e);
-    }
-
 
     public int getScanRange() { return (int) this.scanRangeSlider.getValue(); }
     public Color getFGColor() { return this.fgColorPicker.getValue(); }

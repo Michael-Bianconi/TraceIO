@@ -111,15 +111,6 @@ public class Main extends Application {
         return gui;
     }
 
-    private void addThumbnailFromOutImage() {
-        Thumbnail nail = new Thumbnail(this.viewGUI.getRightImage());
-        nail.imageSetOnAction(actionEvent -> {
-            this.viewGUI.setLeftImage(nail.getImage());
-        });
-        this.thumbnailPane.addThumbnail(nail);
-    }
-
-
     private BorderPane makeMainPane() {
 
 

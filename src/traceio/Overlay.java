@@ -29,9 +29,6 @@ public class Overlay {
      */
     public static Image overlay(Image in1, Image in2, ArrayList<Color> ignore) {
 
-        System.out.println("in1: " + in1.getWidth() + " x " + in1.getHeight());
-        System.out.println("in2: " + in2.getWidth() + " x " + in2.getHeight());
-
         double numCols = in1.getWidth() < in2.getWidth() ? in1.getWidth() : in2.getWidth();
         double numRows = in1.getHeight() < in2.getHeight() ? in1.getHeight() : in2.getHeight();
 

@@ -66,7 +66,6 @@ public class TraceGUI extends VBox {
 
             // if applicable, create a thumbnail of the result as well
             if (thumbnails != null) {
-                System.out.println("TraceGUI is creating a thumbnail");
                 Thumbnail nail = new Thumbnail(imageViews.getRightImage());
                 nail.imageSetOnAction(thumbnailActionEvent -> {
                     imageViews.setLeftImage(nail.getImage());

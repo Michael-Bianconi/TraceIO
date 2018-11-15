@@ -60,8 +60,7 @@ public class Main extends Application {
         Tab blurTab = new Tab("Blur");
         Tab traceTab = new Tab("Trace", new TraceGUI(this.viewGUI, this.thumbnailPane));
         Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(this.viewGUI, this.thumbnailPane));
-
-        Tab overlayTab = new Tab("Overlay");
+        Tab overlayTab = new Tab("Overlay", new OverlayGUI(this.viewGUI, this.thumbnailPane));
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
@@ -80,16 +79,6 @@ public class Main extends Application {
         blurTab.setContent(blurBtn);
         blurBtn.setOnAction(actionEvent ->  {
             this.viewGUI.setRightImage(Blur.blur(this.viewGUI.getLeftImage()));
-        });
-
-
-        OverlayGUI overlayGUI = new OverlayGUI();
-        overlayTab.setContent(overlayGUI);
-        overlayGUI.setOnAction(actionEvent -> {
-            this.viewGUI.setRightImage(Overlay.overlay(this.viewGUI.getLeftImage(),
-                                            this.viewGUI.getRightImage(),
-                                            overlayGUI.getIgnoredColor()));
-            this.addThumbnailFromOutImage();
         });
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());

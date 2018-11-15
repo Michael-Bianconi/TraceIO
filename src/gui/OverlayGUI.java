@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import traceio.Overlay;
 
 
 public class OverlayGUI extends VBox {
@@ -16,9 +17,11 @@ public class OverlayGUI extends VBox {
     private ColorPicker ignoredColorPicker;
     private Button button;
 
-    public OverlayGUI() {
+    public OverlayGUI(ViewGUI imageViews) {
+        this(imageViews, null);
+    }
 
-        super();
+    public OverlayGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
 
         this.ignoredColorPicker = new ColorPicker(Color.TRANSPARENT);
 
@@ -31,6 +34,22 @@ public class OverlayGUI extends VBox {
         sliders.add(ignoredColorPicker, 1, 1);
 
         super.getChildren().addAll(sliders,button);
+
+        this.button.setOnAction(buttonActionEvent -> {
+            imageViews.setRightImage(Overlay.overlay(imageViews.getLeftImage(),
+                    imageViews.getRightImage(),
+                    getIgnoredColor()));
+
+            // if applicable, create a thumbnail of the result as well
+            if (thumbnails != null) {
+                Thumbnail nail = new Thumbnail(imageViews.getRightImage());
+                nail.imageSetOnAction(thumbnailActionEvent -> {
+                    imageViews.setLeftImage(nail.getImage());
+                });
+
+                thumbnails.addThumbnail(nail);
+            }
+        });
     }
 
 

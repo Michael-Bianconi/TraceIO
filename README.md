@@ -100,3 +100,8 @@ Originally it was done just so I could see how some images lined up after proces
 However, it looks pretty neat. Below is the result of solidify() -> overlay() -> trace().
 
 ![Here it is](demo/13Nov2018Overlay.png)
+
+## 14 Nov 2018
+
+Refactoring the GUI because holy fuck it's turning into spaghetti code and I'm
+gonna nip that in the bud.

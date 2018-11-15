@@ -23,12 +23,9 @@ public class Main extends Application {
 
     private String inFileName;
     private String outFileName;
-    private Image originalImage;
-    private Image inImage;
-    private Image outImage;
-    private ImageView inView;
-    private ImageView outView;
+
     private ThumbnailGUI thumbnailPane;
+    private ViewGUI viewGUI;
 
     @Override
     public void init() {
@@ -54,40 +51,6 @@ public class Main extends Application {
         stage.show();
     }
 
-
-    /**
-     * Creates an HBox populated with 2 identical Images - taken from the
-     * inFileName instance variable.
-     *
-     * @return An HBox with two Images.
-     */
-    private HBox makeImageViews() {
-
-        HBox imageViews = new HBox();
-
-        try {
-
-            this.inImage = new Image(new FileInputStream(this.inFileName));
-            this.originalImage = this.inImage;
-            this.inView = new ImageView(this.inImage);
-            inView.setPreserveRatio(true);
-            inView.setFitWidth(640);
-            inView.setFitHeight(360);
-
-            this.outImage = new Image(new FileInputStream(this.inFileName));
-            this.outView = new ImageView(this.outImage);
-            outView.setPreserveRatio(true);
-            outView.setFitWidth(640);
-            outView.setFitHeight(360);
-
-            imageViews.getChildren().addAll(inView, outView);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return imageViews;
-    }
 
 
     /**
@@ -120,61 +83,52 @@ public class Main extends Application {
         Button blurBtn = new Button("Blur");
         blurTab.setContent(blurBtn);
         blurBtn.setOnAction(actionEvent ->  {
-            this.outImage = Blur.blur(this.inImage);
-            this.outView.setImage(this.outImage);
+            this.viewGUI.setRightImage(Blur.blur(this.viewGUI.getLeftImage()));
         });
 
         TraceGUI traceGUI = new TraceGUI();
         traceTab.setContent(traceGUI);
         traceGUI.setOnAction(actionEvent -> {
-            this.outImage = Trace.trace(this.inImage,
-                                        traceGUI.getScanRange(),
-                                        traceGUI.getFGColor(),
-                                        traceGUI.getBGColor());
+            this.viewGUI.setRightImage(Trace.trace(this.viewGUI.getRightImage(),
+                                      traceGUI.getScanRange(),
+                                      traceGUI.getFGColor(),
+                                      traceGUI.getBGColor()));
             this.addThumbnailFromOutImage();
-            this.outView.setImage(this.outImage);
         });
 
         SolidifyGUI solidifyGUI = new SolidifyGUI();
         solidifyTab.setContent(solidifyGUI);
         solidifyGUI.setOnAction(actionEvent ->  {
-            this.outImage = Solidify.solidify(this.inImage,
-                                              solidifyGUI.getKernelSize(),
-                                              solidifyGUI.getRThreshold(),
-                                              solidifyGUI.getGThreshold(),
-                                              solidifyGUI.getBThreshold());
+            this.viewGUI.setRightImage(Solidify.solidify(this.viewGUI.getLeftImage(),
+                                       solidifyGUI.getKernelSize(),
+                                       solidifyGUI.getRThreshold(),
+                                       solidifyGUI.getGThreshold(),
+                                       solidifyGUI.getBThreshold()));
             this.addThumbnailFromOutImage();
-            this.outView.setImage(this.outImage);
         });
 
         OverlayGUI overlayGUI = new OverlayGUI();
         overlayTab.setContent(overlayGUI);
         overlayGUI.setOnAction(actionEvent -> {
-            this.outImage = Overlay.overlay(this.inImage,
-                                            this.outImage,
-                                            overlayGUI.getIgnoredColor());
+            this.viewGUI.setRightImage(Overlay.overlay(this.viewGUI.getLeftImage(),
+                                            this.viewGUI.getRightImage(),
+                                            overlayGUI.getIgnoredColor()));
             this.addThumbnailFromOutImage();
-            this.outView.setImage(this.outImage);
         });
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
-            System.out.println("Swapping it");
-            this.inImage = this.outImage;
-            this.inView.setImage(this.inImage);
+            this.viewGUI.setLeftImage(this.viewGUI.getRightImage());
         });
 
         saveBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         saveBtn.setOnAction(actionEvent -> {
-            System.out.println("Saving it");
-            Save.save(this.outImage, this.outFileName);
+            Save.save(this.viewGUI.getRightImage(), this.outFileName);
         });
 
         resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         resetBtn.setOnAction(actionEvent -> {
-            System.out.println("Reseti spaghetti");
-            this.inImage = this.originalImage;
-            this.inView.setImage(this.inImage);
+            this.viewGUI.setLeftImage(this.viewGUI.getOriginalImage());
         });
 
 
@@ -184,20 +138,18 @@ public class Main extends Application {
 
     private Node makeThumbnailPane() {
         ThumbnailGUI gui = new ThumbnailGUI();
-        Thumbnail thumbnail = new Thumbnail(this.inImage);
+        Thumbnail thumbnail = new Thumbnail(this.viewGUI.getLeftImage());
         thumbnail.imageSetOnAction(actionEvent -> {
-            this.inImage = thumbnail.getImage();
-            this.inView.setImage(this.inImage);
+            this.viewGUI.setLeftImage(thumbnail.getImage());
         });
         this.thumbnailPane = gui;
         return gui;
     }
 
     private void addThumbnailFromOutImage() {
-        Thumbnail nail = new Thumbnail(this.outImage);
+        Thumbnail nail = new Thumbnail(this.viewGUI.getRightImage());
         nail.imageSetOnAction(actionEvent -> {
-            this.inImage = nail.getImage();
-            this.inView.setImage(this.inImage);
+            this.viewGUI.setLeftImage(nail.getImage());
         });
         this.thumbnailPane.addThumbnail(nail);
     }
@@ -205,8 +157,10 @@ public class Main extends Application {
 
     private BorderPane makeMainPane() {
 
+        this.viewGUI = new ViewGUI(inFileName);
+
         BorderPane mainPane = new BorderPane();
-        mainPane.setCenter(makeImageViews());
+        mainPane.setCenter(this.viewGUI);
         mainPane.setRight(makeControlPanel());
         mainPane.setBottom(makeThumbnailPane());
 

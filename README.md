@@ -84,7 +84,7 @@ This fuckin worked amazingly. It provided reasonably similar images to the
 input (provided good thresholds were found), made trace() so much more
 effective.
 
-![Here's an example](demo/07Nov2018MeSolidifyTrace)
+![Here it is](demo/14Nov2018Demo.png)
 
 ![Here's how the different filters complemented each other](demo/07Nov2018MeComparison.png)
 
@@ -103,5 +103,5 @@ However, it looks pretty neat. Below is the result of solidify() -> overlay() ->
 
 ## 14 Nov 2018
 
-Refactoring the GUI because holy fuck it's turning into spaghetti code and I'm
+Refactoring the GUI because it's turning into spaghetti code and I'm
 gonna nip that in the bud.

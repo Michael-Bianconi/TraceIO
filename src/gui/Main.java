@@ -3,6 +3,7 @@ package gui;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import traceio.*;
 
@@ -83,7 +84,9 @@ public class Main extends Application {
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
+            Image temp = view.getLeftImage();
             view.setLeftImage(view.getRightImage());
+            view.setRightImage(temp);
         });
 
         resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());

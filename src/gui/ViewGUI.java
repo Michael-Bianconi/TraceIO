@@ -32,14 +32,14 @@ public class ViewGUI extends HBox {
             this.originalImage = this.leftImage;
             this.leftView = new ImageView(this.leftImage);
             this.leftView.setPreserveRatio(true);
-            this.leftView.setFitWidth(640);
-            this.leftView.setFitHeight(360);
+            this.leftView.setFitWidth(456);
+            this.leftView.setFitHeight(456);
 
             this.rightImage = new Image(inRight);
             this.rightView = new ImageView(this.rightImage);
             this.rightView.setPreserveRatio(true);
-            this.rightView.setFitWidth(640);
-            this.rightView.setFitHeight(360);
+            this.rightView.setFitWidth(456);
+            this.rightView.setFitHeight(456);
 
             super.getChildren().addAll(this.leftView, this.rightView);
 

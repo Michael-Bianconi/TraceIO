@@ -110,3 +110,12 @@ gonna nip that in the bud.
 
 Took out the thumbnail bar because it looked ugly and was going to be a huge
 pain to get to look good. Replaced it with a history GUI.
+
+## 16 Nov 2018
+
+Added in saturate(), invert(), and grayscale(). Saturating the image
+was super useful when used in conjunction with solidify(). It accentuated
+the stronger colors in the image which allowed solidify() to group
+them more smoothly.
+
+![Here's an example](demo/16Nov2018SaturateTrace.png)

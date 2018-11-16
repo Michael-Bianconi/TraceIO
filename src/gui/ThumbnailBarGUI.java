@@ -14,9 +14,9 @@ import java.util.ArrayList;
 /**
  * The thumbnail GUI holds a collection of images in a horizontal grid.
  */
-public class ThumbnailGUI extends HBox {
+public class ThumbnailBarGUI extends HBox {
 
-    public ThumbnailGUI() {
+    public ThumbnailBarGUI() {
         setHeight(150);
     }
 

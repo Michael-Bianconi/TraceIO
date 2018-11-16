@@ -18,7 +18,7 @@ public class Main extends Application {
     private String inFileName;
     private String outFileName;
 
-    private ThumbnailGUI thumbnailPane;
+    private ThumbnailBarGUI thumbnailPane;
     private ViewGUI viewGUI;
 
     @Override
@@ -103,7 +103,7 @@ public class Main extends Application {
 
 
     private Node makeThumbnailPane() {
-        ThumbnailGUI gui = new ThumbnailGUI();
+        ThumbnailBarGUI gui = new ThumbnailBarGUI();
         Thumbnail thumbnail = new Thumbnail(this.viewGUI.getLeftImage());
         thumbnail.imageSetOnAction(actionEvent -> {
             this.viewGUI.setLeftImage(thumbnail.getImage());

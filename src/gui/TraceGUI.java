@@ -28,7 +28,7 @@ public class TraceGUI extends VBox {
      * @param thumbnails When used, this GUI will create a thumbnail
      *                   here. Can be null.
      */
-    public TraceGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
+    public TraceGUI(ViewGUI imageViews, ThumbnailBarGUI thumbnails) {
 
         super();
 

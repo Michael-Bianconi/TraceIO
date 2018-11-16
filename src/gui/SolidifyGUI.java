@@ -22,7 +22,7 @@ public class SolidifyGUI extends VBox {
         this(imageViews, null);
     }
 
-    public SolidifyGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
+    public SolidifyGUI(ViewGUI imageViews, ThumbnailBarGUI thumbnails) {
 
         super();
 

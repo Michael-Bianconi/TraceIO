@@ -21,7 +21,7 @@ public class OverlayGUI extends VBox {
         this(imageViews, null);
     }
 
-    public OverlayGUI(ViewGUI imageViews, ThumbnailGUI thumbnails) {
+    public OverlayGUI(ViewGUI imageViews, ThumbnailBarGUI thumbnails) {
 
         this.ignoredColorPicker = new ColorPicker(Color.TRANSPARENT);
 

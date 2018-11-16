@@ -18,16 +18,15 @@ import javax.swing.text.View;
 public class Main extends Application {
 
     private String inFileName;
-    private String outFileName;
 
     private ViewGUI viewGUI;
     private HistoryGUI history;
+    private Node controlPanel;
 
     @Override
     public void init() {
 
         this.inFileName = getParameters().getUnnamed().get(0);
-        this.outFileName = getParameters().getUnnamed().get(1);
     }
 
 
@@ -60,22 +59,21 @@ public class Main extends Application {
      *
      * @return VBox with the buttons.
      */
-    private Node makeControlPanel() {
+    private static Node makeControlPanel(ViewGUI view, HistoryGUI history) {
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Tab blurTab = new Tab("Blur");
-        Tab traceTab = new Tab("Trace", new TraceGUI(this.viewGUI, this.history));
-        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(this.viewGUI, this.history));
-        Tab overlayTab = new Tab("Overlay", new OverlayGUI(this.viewGUI, this.history));
+        Tab traceTab = new Tab("Trace", new TraceGUI(view, history));
+        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(view, history));
+        Tab overlayTab = new Tab("Overlay", new OverlayGUI(view, history));
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
-        Button saveBtn = new Button("Save");
         Button swapBtn = new Button("Swap");
         Button resetBtn = new Button("Reset");
-        optionsPane.getChildren().addAll(saveBtn,swapBtn,resetBtn);
+        optionsPane.getChildren().addAll(swapBtn,resetBtn);
 
         GridPane controlPanel = new GridPane();
         controlPanel.setGridLinesVisible(true);
@@ -86,17 +84,17 @@ public class Main extends Application {
         Button blurBtn = new Button("Blur");
         blurTab.setContent(blurBtn);
         blurBtn.setOnAction(actionEvent ->  {
-            this.viewGUI.setRightImage(Blur.blur(this.viewGUI.getLeftImage()));
+            view.setRightImage(Blur.blur(view.getLeftImage()));
         });
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
-            this.viewGUI.setLeftImage(this.viewGUI.getRightImage());
+            view.setLeftImage(view.getRightImage());
         });
 
         resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         resetBtn.setOnAction(actionEvent -> {
-            this.viewGUI.setLeftImage(this.viewGUI.getOriginalImage());
+            view.setLeftImage(view.getOriginalImage());
         });
 
 
@@ -104,6 +102,11 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Create the history pane and add the current left image (original).
+     * @param view View to alter when pressed.
+     * @return The history pane.
+     */
     private static HistoryGUI makeHistoryPanel(ViewGUI view) {
         HistoryGUI h = new HistoryGUI(view, 10);
         h.addBox(view.getLeftImage(), "Original");
@@ -113,13 +116,14 @@ public class Main extends Application {
     private BorderPane makeMainPane() {
 
 
-        this.viewGUI = new ViewGUI(inFileName);
+        this.viewGUI = new ViewGUI(this.inFileName);
         this.history = makeHistoryPanel(this.viewGUI);
+        this.controlPanel = makeControlPanel(this.viewGUI, this.history);
 
         BorderPane mainPane = new BorderPane();
         mainPane.setCenter(this.viewGUI);
         mainPane.setLeft(this.history);
-        mainPane.setRight(makeControlPanel());
+        mainPane.setRight(this.controlPanel);
 
         return mainPane;
     }

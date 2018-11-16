@@ -105,3 +105,8 @@ However, it looks pretty neat. Below is the result of solidify() -> overlay() ->
 
 Refactoring the GUI because it's turning into spaghetti code and I'm
 gonna nip that in the bud.
+
+## 15 Nov 2018
+
+Took out the thumbnail bar because it looked ugly and was going to be a huge
+pain to get to look good. Replaced it with a history GUI.

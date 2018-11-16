@@ -13,13 +13,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.swing.text.View;
+
 public class Main extends Application {
 
     private String inFileName;
     private String outFileName;
 
-    private ThumbnailBarGUI thumbnailPane;
     private ViewGUI viewGUI;
+    private HistoryGUI history;
 
     @Override
     public void init() {
@@ -64,9 +66,9 @@ public class Main extends Application {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         Tab blurTab = new Tab("Blur");
-        Tab traceTab = new Tab("Trace", new TraceGUI(this.viewGUI, this.thumbnailPane));
-        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(this.viewGUI, this.thumbnailPane));
-        Tab overlayTab = new Tab("Overlay", new OverlayGUI(this.viewGUI, this.thumbnailPane));
+        Tab traceTab = new Tab("Trace", new TraceGUI(this.viewGUI, this.history));
+        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(this.viewGUI, this.history));
+        Tab overlayTab = new Tab("Overlay", new OverlayGUI(this.viewGUI, this.history));
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
@@ -102,24 +104,21 @@ public class Main extends Application {
     }
 
 
-    private Node makeThumbnailPane() {
-        ThumbnailBarGUI gui = new ThumbnailBarGUI();
-        Thumbnail thumbnail = new Thumbnail(this.viewGUI.getLeftImage());
-        thumbnail.imageSetOnAction(actionEvent -> {
-            this.viewGUI.setLeftImage(thumbnail.getImage());
-        });
-        this.thumbnailPane = gui;
-        return gui;
+    private static HistoryGUI makeHistoryPanel(ViewGUI view) {
+        HistoryGUI h = new HistoryGUI(view, 10);
+        h.addBox(view.getLeftImage(), "Original");
+        return h;
     }
 
     private BorderPane makeMainPane() {
 
 
         this.viewGUI = new ViewGUI(inFileName);
+        this.history = makeHistoryPanel(this.viewGUI);
 
         BorderPane mainPane = new BorderPane();
-        mainPane.setBottom(makeThumbnailPane());
         mainPane.setCenter(this.viewGUI);
+        mainPane.setLeft(this.history);
         mainPane.setRight(makeControlPanel());
 
         return mainPane;

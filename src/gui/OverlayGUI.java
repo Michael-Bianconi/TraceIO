@@ -21,7 +21,7 @@ public class OverlayGUI extends VBox {
         this(imageViews, null);
     }
 
-    public OverlayGUI(ViewGUI imageViews, ThumbnailBarGUI thumbnails) {
+    public OverlayGUI(ViewGUI imageViews, HistoryGUI history) {
 
         this.ignoredColorPicker = new ColorPicker(Color.TRANSPARENT);
 
@@ -41,13 +41,8 @@ public class OverlayGUI extends VBox {
                     getIgnoredColor()));
 
             // if applicable, create a thumbnail of the result as well
-            if (thumbnails != null) {
-                Thumbnail nail = new Thumbnail(imageViews.getRightImage());
-                nail.imageSetOnAction(thumbnailActionEvent -> {
-                    imageViews.setLeftImage(nail.getImage());
-                });
-
-                thumbnails.addThumbnail(nail);
+            if (history != null) {
+                history.addBox(imageViews.getRightImage(), "Overlay");
             }
         });
     }

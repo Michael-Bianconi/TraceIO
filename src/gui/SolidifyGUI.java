@@ -22,7 +22,7 @@ public class SolidifyGUI extends VBox {
         this(imageViews, null);
     }
 
-    public SolidifyGUI(ViewGUI imageViews, ThumbnailBarGUI thumbnails) {
+    public SolidifyGUI(ViewGUI imageViews, HistoryGUI history) {
 
         super();
 
@@ -72,13 +72,8 @@ public class SolidifyGUI extends VBox {
                     getBThreshold()));
 
             // if applicable, create a thumbnail of the result as well
-            if (thumbnails != null) {
-                Thumbnail nail = new Thumbnail(imageViews.getRightImage());
-                nail.imageSetOnAction(thumbnailActionEvent -> {
-                    imageViews.setLeftImage(nail.getImage());
-                });
-
-                thumbnails.addThumbnail(nail);
+            if (history != null) {
+                history.addBox(imageViews.getRightImage(), "Solidify");
             }
         });
     }

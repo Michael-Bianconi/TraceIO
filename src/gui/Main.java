@@ -64,11 +64,12 @@ public class Main extends Application {
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Tab blurTab = new Tab("Blur");
+        Tab blurTab = new Tab("Blur", new BlurGUI(view, history));
         Tab traceTab = new Tab("Trace", new TraceGUI(view, history));
         Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(view, history));
         Tab overlayTab = new Tab("Overlay", new OverlayGUI(view, history));
-        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
+        Tab otherTab = new Tab("Other", new OtherGUI(view, history));
+        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab, otherTab);
 
         VBox optionsPane = new VBox();
         Button swapBtn = new Button("Swap");
@@ -79,13 +80,6 @@ public class Main extends Application {
         controlPanel.setGridLinesVisible(true);
         controlPanel.add(tabPane, 0, 0);
         controlPanel.add(optionsPane, 0, 1);
-
-
-        Button blurBtn = new Button("Blur");
-        blurTab.setContent(blurBtn);
-        blurBtn.setOnAction(actionEvent ->  {
-            view.setRightImage(Blur.blur(view.getLeftImage()));
-        });
 
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {

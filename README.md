@@ -77,7 +77,7 @@ In each section, it uses RGB thresholds (set by the user) to
 determine which colors appear in the majority of the kernel. It then "splots"
 that color over the whole kernel.
 
-In other worse, solidify() pixelates the image and reduces it to the
+In other words, solidify() pixelates the image and reduces it to the
 main colors (black, white, red, green, blue, yellow, purple, cyan).
 
 This fuckin worked amazingly. It provided reasonably similar images to the

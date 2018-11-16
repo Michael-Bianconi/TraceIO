@@ -68,4 +68,66 @@ public class Other {
 
         return out;
     }
+
+
+    public static Image darker(Image in) {
+
+        WritableImage out = new WritableImage(
+                in.getPixelReader(),
+                (int) in.getWidth(),
+                (int) in.getHeight()
+        );
+
+        PixelReader reader = in.getPixelReader();
+        PixelWriter writer = out.getPixelWriter();
+
+        for (int row = 0; row < in.getHeight(); row++) {
+            for (int col = 0; col < in.getWidth(); col++) {
+                writer.setColor(col, row, reader.getColor(col, row).darker());
+            }
+        }
+
+        return out;
+    }
+
+    public static Image brighter(Image in) {
+
+        WritableImage out = new WritableImage(
+                in.getPixelReader(),
+                (int) in.getWidth(),
+                (int) in.getHeight()
+        );
+
+        PixelReader reader = in.getPixelReader();
+        PixelWriter writer = out.getPixelWriter();
+
+        for (int row = 0; row < in.getHeight(); row++) {
+            for (int col = 0; col < in.getWidth(); col++) {
+                writer.setColor(col, row, reader.getColor(col, row).brighter());
+            }
+        }
+
+        return out;
+    }
+
+
+    public static Image desaturate(Image in) {
+
+        WritableImage out = new WritableImage(
+                in.getPixelReader(),
+                (int) in.getWidth(),
+                (int) in.getHeight()
+        );
+
+        PixelReader reader = in.getPixelReader();
+        PixelWriter writer = out.getPixelWriter();
+
+        for (int row = 0; row < in.getHeight(); row++) {
+            for (int col = 0; col < in.getWidth(); col++) {
+                writer.setColor(col, row, reader.getColor(col, row).desaturate());
+            }
+        }
+
+        return out;
+    }
 }

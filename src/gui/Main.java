@@ -38,7 +38,7 @@ public class Main extends Application {
         VBox scenePane = new VBox();
         Node mainPane = makeMainPane();
 
-        scenePane.getChildren().add(new MenuBarGUI(stage,this.viewGUI));
+        scenePane.getChildren().add(new MenuBarGUI(stage,this.viewGUI, this.history));
         scenePane.getChildren().add(mainPane);
 
         Scene scene = new Scene(scenePane);
@@ -69,8 +69,7 @@ public class Main extends Application {
         Tab traceTab = new Tab("Trace", new TraceGUI(view, history));
         Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(view, history));
         Tab overlayTab = new Tab("Overlay", new OverlayGUI(view, history));
-        Tab otherTab = new Tab("Other", new OtherGUI(view, history));
-        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab, otherTab);
+        tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
         Button swapBtn = new Button("Swap");

@@ -18,10 +18,14 @@ public class ViewGUI extends HBox {
     private ImageView rightView;
 
     public ViewGUI(String imagePath) {
+        this(new File(imagePath));
+    }
+
+    public ViewGUI(File inFile) {
         try {
 
-            FileInputStream inLeft = new FileInputStream(new File(imagePath));
-            FileInputStream inRight = new FileInputStream(new File(imagePath));
+            FileInputStream inLeft = new FileInputStream(inFile);
+            FileInputStream inRight = new FileInputStream(inFile);
 
 
             this.leftImage = new Image(inLeft);
@@ -56,5 +60,22 @@ public class ViewGUI extends HBox {
     public void setRightImage(Image right) {
         this.rightImage = right;
         this.rightView.setImage(this.rightImage);
+    }
+
+    public void load(File in) {
+
+        try {
+            FileInputStream inLeft = new FileInputStream(in);
+            FileInputStream inRight = new FileInputStream(in);
+
+
+            this.leftImage = new Image(inLeft);
+            this.originalImage = this.leftImage;
+            this.leftView.setImage(this.leftImage);
+
+            this.rightImage = new Image(inRight);
+            this.rightView.setImage(this.rightImage);
+
+        } catch (FileNotFoundException e) { throw new RuntimeException(e); }
     }
 }

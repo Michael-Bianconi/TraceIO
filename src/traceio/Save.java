@@ -25,7 +25,11 @@ public class Save {
      */
     public static void save(Image in, String pathOut) {
 
-        File out = new File(pathOut);
+        save(in, new File(pathOut));
+    }
+
+    public static void save(Image in, File out) {
+
         BufferedImage img = SwingFXUtils.fromFXImage(in, null);
 
         try {

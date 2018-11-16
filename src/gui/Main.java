@@ -33,7 +33,13 @@ public class Main extends Application {
     public void start(Stage stage) {
  
         //Creating a scene object
-        Scene scene = new Scene(makeMainPane());
+        VBox scenePane = new VBox();
+        Node mainPane = makeMainPane();
+
+        scenePane.getChildren().add(new MenuBarGUI(stage,this.viewGUI));
+        scenePane.getChildren().add(mainPane);
+
+        Scene scene = new Scene(scenePane);
 
         //Setting title to the Stage
         stage.setTitle("TraceIO");
@@ -84,11 +90,6 @@ public class Main extends Application {
         swapBtn.prefWidthProperty().bind(optionsPane.widthProperty());
         swapBtn.setOnAction(actionEvent -> {
             this.viewGUI.setLeftImage(this.viewGUI.getRightImage());
-        });
-
-        saveBtn.prefWidthProperty().bind(optionsPane.widthProperty());
-        saveBtn.setOnAction(actionEvent -> {
-            Save.save(this.viewGUI.getRightImage(), this.outFileName);
         });
 
         resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());

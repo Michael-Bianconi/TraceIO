@@ -18,15 +18,11 @@ public class TraceGUI extends VBox {
     private Slider scanRangeSlider;
     private Button button;
 
-    public TraceGUI(ViewGUI imageViews) {
-        this(imageViews, null);
-    }
-
     /**
      * Create the GUI
      * @param imageViews This GUI will change the images in this pane.
      */
-    public TraceGUI(ViewGUI imageViews, HistoryGUI history) {
+    public TraceGUI(ViewGUI imageViews) {
 
         super();
 
@@ -61,11 +57,6 @@ public class TraceGUI extends VBox {
                                                  getScanRange(),
                                                  getFGColor(),
                                                  getBGColor()));
-
-            // if applicable, create a thumbnail of the result as well
-            if (history != null) {
-                history.addBox(imageViews.getRightImage(), "Trace");
-            }
         });
     }
 

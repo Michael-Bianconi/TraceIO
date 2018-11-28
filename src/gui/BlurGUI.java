@@ -17,15 +17,11 @@ public class BlurGUI extends VBox {
     private Button blurButton;
     private Button hBlurButton;
 
-    public BlurGUI(ViewGUI imageViews) {
-        this(imageViews, null);
-    }
-
     /**
      * Create the GUI
      * @param imageViews This GUI will change the images in this pane.
      */
-    public BlurGUI(ViewGUI imageViews, HistoryGUI history) {
+    public BlurGUI(ViewGUI imageViews) {
 
         // min, max, current
         this.scanRangeSlider = new Slider(1, 10, 5);
@@ -61,11 +57,6 @@ public class BlurGUI extends VBox {
                     imageViews.getLeftImage(),
                     getScanRange()
             ));
-
-            // if applicable, create a thumbnail of the result as well
-            if (history != null) {
-                history.addBox(imageViews.getRightImage(), "Blur");
-            }
         });
 
         this.hBlurButton.setOnAction(hBlurActionEvent -> {
@@ -76,10 +67,6 @@ public class BlurGUI extends VBox {
                     getScanRange(),
                     getMagnitude()
             ));
-
-            if (history != null) {
-                history.addBox(imageViews.getRightImage(), "HBlur");
-            }
         });
 
     }

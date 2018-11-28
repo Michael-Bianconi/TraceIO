@@ -19,10 +19,6 @@ public class SolidifyGUI extends VBox {
     private Button button;
 
     public SolidifyGUI(ViewGUI imageViews) {
-        this(imageViews, null);
-    }
-
-    public SolidifyGUI(ViewGUI imageViews, HistoryGUI history) {
 
         super();
 
@@ -70,11 +66,6 @@ public class SolidifyGUI extends VBox {
                     getRThreshold(),
                     getGThreshold(),
                     getBThreshold()));
-
-            // if applicable, create a thumbnail of the result as well
-            if (history != null) {
-                history.addBox(imageViews.getRightImage(), "Solidify");
-            }
         });
     }
 

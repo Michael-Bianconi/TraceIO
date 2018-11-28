@@ -1,12 +1,14 @@
 package gui;
 
+import gui.menubar.EditMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import traceio.Other;
 import traceio.Save;
+import traceio.color.*;
 
 public class MenuBarGUI extends MenuBar {
 
@@ -16,7 +18,7 @@ public class MenuBarGUI extends MenuBar {
     /**
      * The menu bar has options for loading and saving images.
      */
-    public MenuBarGUI(Stage stage, ViewGUI imageViews, HistoryGUI history) {
+    public MenuBarGUI(Stage stage, ViewGUI imageViews) {
 
         Menu fileMenu = new Menu("file");
         MenuItem load = new MenuItem("load");
@@ -24,7 +26,9 @@ public class MenuBarGUI extends MenuBar {
         this.loadChooser.setTitle("Load a file");
         this.saveChooser.setTitle("Save this image");
 
-        Menu imageMenu = new ImageMenu(imageViews, history);
+        Menu editMenu = new EditMenu(imageViews);
+
+        Menu imageMenu = new ImageMenu(imageViews);
 
 
         save.setOnAction(actionEvent -> {
@@ -36,13 +40,13 @@ public class MenuBarGUI extends MenuBar {
         });
 
         fileMenu.getItems().addAll(load,save);
-        super.getMenus().addAll(fileMenu, imageMenu);
+        super.getMenus().addAll(fileMenu, editMenu, imageMenu);
 
     }
 
     private class ImageMenu extends Menu {
 
-        public ImageMenu(ViewGUI views, HistoryGUI history) {
+        public ImageMenu(ViewGUI views) {
 
             super("image");
             MenuItem brighter = new MenuItem("brighter");
@@ -56,50 +60,32 @@ public class MenuBarGUI extends MenuBar {
             );
 
             brighter.setOnAction(actionEvent -> {
-                views.setRightImage(Other.brighter(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "brighter");
-                }
+                views.setRightImage(Brightness.brighter(views.getLeftImage()));
             });
 
 
             darker.setOnAction(actionEvent -> {
-                views.setRightImage(Other.darker(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "darker");
-                }
+                views.setRightImage(Brightness.darker(views.getLeftImage()));
             });
 
 
             saturate.setOnAction(actionEvent -> {
-                views.setRightImage(Other.saturate(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "saturate");
-                }
+                views.setRightImage(Saturation.saturate(views.getLeftImage()));
             });
 
 
             desaturate.setOnAction(actionEvent -> {
-                views.setRightImage(Other.desaturate(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "desaturate");
-                }
+                views.setRightImage(Saturation.desaturate(views.getLeftImage()));
             });
 
 
             invert.setOnAction(actionEvent -> {
-                views.setRightImage(Other.invert(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "invert");
-                }
+                views.setRightImage(Colorize.invert(views.getLeftImage()));
             });
 
 
             grayscale.setOnAction(actionEvent -> {
-                views.setRightImage(Other.grayscale(views.getLeftImage()));
-                if (history != null) {
-                    history.addBox(views.getRightImage(), "grayscale");
-                }
+                views.setRightImage(Saturation.grayscale(views.getLeftImage()));
             });
         }
     }

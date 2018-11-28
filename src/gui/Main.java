@@ -21,7 +21,7 @@ public class Main extends Application {
     private String inFileName;
 
     private ViewGUI viewGUI;
-    private HistoryGUI history;
+    private History<Image> history;
     private Node controlPanel;
 
     @Override
@@ -38,7 +38,7 @@ public class Main extends Application {
         VBox scenePane = new VBox();
         Node mainPane = makeMainPane();
 
-        scenePane.getChildren().add(new MenuBarGUI(stage,this.viewGUI, this.history));
+        scenePane.getChildren().add(new MenuBarGUI(stage,this.viewGUI));
         scenePane.getChildren().add(mainPane);
 
         Scene scene = new Scene(scenePane);
@@ -60,15 +60,15 @@ public class Main extends Application {
      *
      * @return VBox with the buttons.
      */
-    private static Node makeControlPanel(ViewGUI view, HistoryGUI history) {
+    private static Node makeControlPanel(ViewGUI view) {
 
         TabPane tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
-        Tab blurTab = new Tab("Blur", new BlurGUI(view, history));
-        Tab traceTab = new Tab("Trace", new TraceGUI(view, history));
-        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(view, history));
-        Tab overlayTab = new Tab("Overlay", new OverlayGUI(view, history));
+        Tab blurTab = new Tab("Blur", new BlurGUI(view));
+        Tab traceTab = new Tab("Trace", new TraceGUI(view));
+        Tab solidifyTab = new Tab("Solidify", new SolidifyGUI(view));
+        Tab overlayTab = new Tab("Overlay", new OverlayGUI(view));
         tabPane.getTabs().addAll(traceTab,blurTab,solidifyTab,overlayTab);
 
         VBox optionsPane = new VBox();
@@ -85,7 +85,7 @@ public class Main extends Application {
         swapBtn.setOnAction(actionEvent -> {
             Image temp = view.getLeftImage();
             view.setLeftImage(view.getRightImage());
-            view.setRightImage(temp);
+            view.setRightImage(temp, false);
         });
 
         resetBtn.prefWidthProperty().bind(optionsPane.widthProperty());
@@ -113,12 +113,11 @@ public class Main extends Application {
 
 
         this.viewGUI = new ViewGUI(this.inFileName);
-        this.history = makeHistoryPanel(this.viewGUI);
-        this.controlPanel = makeControlPanel(this.viewGUI, this.history);
+        this.history = new History<>(10);
+        this.controlPanel = makeControlPanel(this.viewGUI);
 
         BorderPane mainPane = new BorderPane();
         mainPane.setCenter(this.viewGUI);
-        mainPane.setLeft(this.history);
         mainPane.setRight(this.controlPanel);
 
         return mainPane;
